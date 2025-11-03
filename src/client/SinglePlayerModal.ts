@@ -236,7 +236,10 @@ export class SinglePlayerModal extends LitElement {
               ${translateText("single_modal.options_title")}
             </div>
             <div class="option-cards">
-              <label for="bots-count" class="option-card">
+              <label
+                for="bots-count"
+                class="option-card ${this.emptyMap ? "disabled" : ""}"
+              >
                 <input
                   type="range"
                   id="bots-count"
@@ -246,10 +249,11 @@ export class SinglePlayerModal extends LitElement {
                   @input=${this.handleBotsChange}
                   @change=${this.handleBotsChange}
                   .value="${String(this.bots)}"
+                  ?disabled=${this.emptyMap}
                 />
                 <div class="option-card-title">
                   <span>${translateText("single_modal.bots")}</span>${this
-                    .bots === 0
+                    .bots === 0 || this.emptyMap
                     ? translateText("single_modal.bots_disabled")
                     : this.bots}
                 </div>
@@ -262,7 +266,7 @@ export class SinglePlayerModal extends LitElement {
                 ? html`
                     <label
                       for="singleplayer-modal-disable-npcs"
-                      class="option-card ${this.disableNPCs ? "selected" : ""}"
+                      class="option-card ${this.disableNPCs ? "selected" : ""} ${this.emptyMap ? "disabled" : ""}"
                     >
                       <div class="checkbox-icon"></div>
                       <input
@@ -270,6 +274,7 @@ export class SinglePlayerModal extends LitElement {
                         id="singleplayer-modal-disable-npcs"
                         @change=${this.handleDisableNPCsChange}
                         .checked=${this.disableNPCs}
+                        ?disabled=${this.emptyMap}
                       />
                       <div class="option-card-title">
                         ${translateText("single_modal.disable_nations")}

@@ -112,6 +112,17 @@
   background: rgba(74, 158, 255, 0.1);
 }
 
+.option-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.option-card.disabled .option-card-title,
+.option-card.disabled .checkbox-icon {
+  opacity: 0.6;
+}
+
 .option-card-title {
   font-size: 14px;
   color: #aaa;
