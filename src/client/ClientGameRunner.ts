@@ -212,6 +212,10 @@ export class ClientGameRunner {
     private gameView: GameView,
   ) {
     this.lastMessageTime = Date.now();
+    // Expose game instance for Tampermonkey scripts (for testing/development)
+    if (typeof window !== 'undefined') {
+      (window as any).__openfrontGame = this;
+    }
   }
 
   private saveGame(update: WinUpdate) {
@@ -383,6 +387,26 @@ export class ClientGameRunner {
       clearInterval(this.connectionCheckInterval);
       this.connectionCheckInterval = null;
     }
+    // Clean up global reference
+    if (typeof window !== 'undefined') {
+      delete (window as any).__openfrontGame;
+    }
+  }
+
+  // Public accessors for Tampermonkey scripts
+  public getGameView(): GameView {
+    return this.gameView;
+  }
+
+  public getMyPlayer(): PlayerView | null {
+    if (this.myPlayer === null && this.gameView) {
+      this.myPlayer = this.gameView.playerByClientID(this.lobby.clientID);
+    }
+    return this.myPlayer;
+  }
+
+  public getClientID(): string {
+    return this.lobby.clientID;
   }
 
   private inputEvent(event: MouseUpEvent) {
