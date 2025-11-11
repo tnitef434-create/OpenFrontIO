@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "OpenFrontIO Gold Hack - Network Interceptor",
+  "version": "1.0.0",
+  "description": "Intercepts and modifies OpenFrontIO network traffic for testing hacker mode",
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "debugger",
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://openfront.io/*",
+    "*://localhost/*",
+    "ws://*/*",
+    "wss://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://openfront.io/*", "*://localhost/*"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["injected.js"],
+      "matches": ["*://openfront.io/*", "*://localhost/*"]
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
